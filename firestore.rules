@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    // Роль берётся из документа roles/<uid>, который можно создать только вручную в консоли.
+    function role() { return get(/databases/$(db)/documents/roles/$(request.auth.uid)).data.role; }
+    function isCur() { return request.auth != null && role() == 'curator'; }
+    function isPl()  { return request.auth != null && role() == 'player'; }
+
+    match /roles/{u} {
+      allow read: if request.auth != null && (request.auth.uid == u || isCur());
+      allow write: if false;
+    }
+    match /settings/{d} {
+      allow read: if isPl() || isCur();
+      allow write: if isCur();
+    }
+    match /promos/{c} {
+      allow get: if isPl() || isCur();              // игрок может открыть код только по точному названию
+      allow list, create, delete: if isCur();
+      allow update: if isCur() || (isPl() && resource.data.used == false
+        && request.resource.data.used == true
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['used','by']));
+    }
+    match /players/{u} {
+      allow read: if isCur() || (isPl() && request.auth.uid == u);
+      allow create: if isPl() && request.auth.uid == u
+        && request.resource.data.crystals == 0 && request.resource.data.ov == 0;
+      allow update: if isCur() || (isPl() && request.auth.uid == u && (spend() || claim()));
+      allow delete: if false;
+
+      // Игрок может только тратить валюту (не увеличивать)...
+      function spend() {
+        return request.resource.data.crystals <= resource.data.crystals
+            && request.resource.data.ov <= resource.data.ov;
+      }
+      // ...или получить ровно ту награду, что записана в неиспользованном промокоде.
+      function claim() {
+        let p = /databases/$(db)/documents/promos/$(request.resource.data.claim);
+        return get(p).data.used == false && getAfter(p).data.used == true
+          && (get(p).data.exp == 0 || request.time.toMillis() < get(p).data.exp)
+          && request.resource.data.crystals == resource.data.crystals + get(p).data.c
+          && request.resource.data.ov == resource.data.ov + get(p).data.o;
+      }
+    }
+  }
+}

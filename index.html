@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Хроники Люмьера</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#e6b800;--tx:#e8ecf8}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#1a2a6c,#070c20 70%) fixed;color:var(--tx);font:16px/1.5 system-ui,sans-serif;min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+h1,h3,.logo{font-family:'Cormorant Garamond',Georgia,serif;color:var(--gold);margin:.2em 0}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #e6b80055;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:700}
+nav{display:flex;gap:6px;overflow-x:auto;padding:8px 10px}
+nav button{background:#ffffff0d;color:var(--tx);border:1px solid #e6b80044;border-radius:20px;padding:8px 14px;white-space:nowrap}
+nav button.on{background:var(--gold);color:#1a1200}
+main{padding:10px;max-width:920px;margin:auto}
+section,.poster{border:1px solid #e6b80066;border-radius:6px;padding:14px;margin:10px 0;background:#ffffff08;box-shadow:0 0 28px #4a7bff22}
+.poster{border:3px double var(--gold);text-align:center}
+.b,.b2,.ic{border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer;margin:3px}
+.b{background:linear-gradient(#f3cf4a,#c99a00);color:#1a1200}
+.b2,.ic{background:#ffffff14;color:var(--tx)}
+.dis{opacity:.45}.warn{outline:2px solid #e0243f}.red{color:#ff5a6e;font-weight:700}
+.ch.b{display:block;width:100%;text-align:left;margin:6px 0}.ch small{display:block;font-weight:400}
+input,select,textarea{background:#0a1230;color:var(--tx);border:1px solid #e6b80055;border-radius:6px;padding:9px;margin:3px;max-width:100%}
+.login{max-width:320px;margin:15vh auto;text-align:center}.login input{display:block;width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.rc,.cd{border:2px solid var(--c);border-radius:4px;padding:10px;text-align:center;background:linear-gradient(#0d1740,#070c20);box-shadow:0 0 16px var(--c);animation:pop .5s both}
+.rc i,.cd i{color:var(--c);font-style:normal;display:block}.rc small,.cd small{display:block;opacity:.8}
+.rc.big{grid-column:1/-1;font-size:1.4em;animation:pop .8s both,glow 1s 3}
+.cd.dead{filter:grayscale(1);border-style:dashed}
+#fx{display:none;position:fixed;inset:0;background:#050813f5;z-index:50;overflow:auto;padding:16px}#fx.on{display:block}
+.skip{position:fixed;top:12px;right:12px;z-index:60}
+.stage{min-height:60vh;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.stage .grid{width:100%}
+.lamp{width:90px;height:90px;border-radius:50%;background:radial-gradient(#fff,#7fb0ff 40%,transparent 70%);animation:pulse .5s infinite alternate}
+.flash{width:100vmax;height:100vmax;position:fixed;background:radial-gradient(var(--c),transparent 65%);animation:fl 1s both}
+.env{width:120px;height:80px;background:#f2e6c9;border-radius:4px;position:relative;animation:drop 1s both}
+.env:after{content:'';position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px;border-radius:50%;background:var(--c)}
+.shake{animation:sh .1s 8}
+.modal{position:fixed;inset:0;background:#000a;z-index:90;display:flex;align-items:center;justify-content:center;padding:16px}
+.box{background:#0d1740;border:2px solid var(--gold);padding:18px;max-width:380px;border-radius:6px}.box.danger{border-color:#e0243f}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#0d1740;border:1px solid var(--gold);padding:10px 16px;border-radius:6px;display:none;z-index:99;max-width:90vw}#toast.on{display:block}
+img{max-width:100%}.rc img,.cd img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:3px;margin-bottom:6px}
+.pt{float:left;width:90px;margin:0 12px 8px 0;border:2px solid var(--gold);border-radius:4px}
+.scene{width:100%;max-height:50vh;object-fit:cover;border-radius:6px;margin-bottom:8px}
+@keyframes pop{from{opacity:0;transform:scale(.8)}}@keyframes pulse{from{opacity:.4;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
+@keyframes fl{0%{opacity:0}30%{opacity:1}100%{opacity:.2}}@keyframes drop{from{transform:translateY(-120px);opacity:0}}
+@keyframes sh{50%{transform:translateX(6px)}}@keyframes glow{50%{box-shadow:0 0 40px var(--c)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head>
+<body><div id="app"></div><div id="fx"></div><div id="toast"></div>
+<script type="module" src="js/game.js"></script></body></html>
